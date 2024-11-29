@@ -1,0 +1,51 @@
+Prometheus and Grafana Deployment Documentation
+Introduction
+This document outlines the steps I followed to deploy Prometheus and Grafana using Terraform. The deployment involved setting up EC2 instances, configuring Prometheus, Grafana, and Node Exporter, and visualizing system logs from one instance on the Grafana dashboard.
+Objective
+The goal of this lab was to deploy monitoring and visualization tools (Prometheus and Grafana) on an Ubuntu EC2 instance. Additionally, I set up Node Exporter on another EC2 instance to monitor system metrics and visualized these metrics on Grafana's dashboard.
+Why I Did This
+This project demonstrates the ability to deploy and configure monitoring systems in a cloud environment. Prometheus and Grafana enable effective monitoring of system resources, while Node Exporter provides detailed metrics. These tools help simulate a real-world setup where infrastructure monitoring is critical.
+What I Achieved
+1. Successfully deployed Prometheus and Grafana on an Ubuntu EC2 instance.
+2. Installed and configured Node Exporter on a second EC2 instance.
+3. Linked Node Exporter data to Grafana as a data source.
+4. Imported the Node Exporter Full dashboard to visualize system logs and metrics on Grafana.
+5. Tested and verified the functionality of the monitoring setup.
+Step-by-Step Execution
+Terraform Setup
+1. Wrote the Terraform script to define the infrastructure.
+2. Executed the following Terraform commands:
+•	   - terraform init
+•	   - terraform validate
+•	   - terraform plan
+•	   - terraform apply -auto-approve
+3. After the resources were deployed, I copied the public IP addresses of both EC2 instances from the Terraform outputs.
+Prometheus and Grafana Installation
+1. SSH-ed into the first EC2 instance using its public IP.
+2. Installed Prometheus by executing the following commands:
+   - sudo apt update
+   - wget https://github.com/prometheus/prometheus/releases/download/v2.42.0/prometheus-2.42.0.linux-amd64.tar.gz
+   - tar -xvf prometheus-2.42.0.linux-amd64.tar.gz
+   - cd prometheus-2.42.0.linux-amd64
+   - ./prometheus
+3. Installed Grafana by executing the following commands:
+   - sudo apt-get install -y software-properties-common
+   - wget -q -O - https://packages.grafana.com/gpg.key | sudo apt-key add -
+   - sudo add-apt-repository 'deb https://packages.grafana.com/oss/deb stable main'
+   - sudo apt-get update
+   - sudo apt-get install grafana
+   - sudo systemctl start grafana-server
+Node Exporter Installation
+1. SSH-ed into the second EC2 instance using its public IP.
+2. Installed Node Exporter by executing the following commands:
+   - wget https://github.com/prometheus/node_exporter/releases/download/v1.6.1/node_exporter-1.6.1.linux-amd64.tar.gz
+   - tar -xvf node_exporter-1.6.1.linux-amd64.tar.gz
+   - cd node_exporter-1.6.1.linux-amd64
+   - ./node_exporter
+Adding Data Source and Dashboard
+1. Accessed the Grafana dashboard by navigating to http://<Grafana_Public_IP>:3000 on a browser.
+2. Added Prometheus as a data source in Grafana.
+3. Imported the Node Exporter Full dashboard to visualize metrics from the second EC2 instance.
+Testing and Validation
+1. Verified the connectivity between Prometheus and Node Exporter by checking Prometheus targets.
+2. Confirmed that system logs and metrics from the second EC2 instance were displayed on the Grafana dashboard.
